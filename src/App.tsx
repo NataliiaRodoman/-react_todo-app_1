@@ -3,15 +3,14 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { Todo } from './types/Todo';
-import { FilterBy } from './types/Filter';
+import { FilterBy, ErrorMessage } from './types/Constants';
 import { createTodo, deleteTodo, getTodos } from './api/todos';
 import { RequestTodo } from './types/RequestTodo';
-import { ErrorMessage } from './types/Error';
 import { client } from './utils/fetchClient';
-import { Header } from './сomponents/Header';
-import { TodoList } from './сomponents/TodoList';
-import { Footer } from './сomponents/Footer';
-import { ErrorModal } from './сomponents/ErrorModal';
+import { Header } from './Components/Header';
+import { TodoList } from './Components/TodoList';
+import { Footer } from './Components/Footer';
+import { ErrorModal } from './Components/ErrorModal';
 
 const USER_ID = 10552;
 
