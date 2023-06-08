@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import React, { FC } from 'react';
 import { Todo } from '../types/Todo';
 import { TodoItem } from './TodoItem';
 
@@ -9,7 +9,7 @@ interface Props {
   onChange: (id: number, property: Partial<Todo>) => void
 }
 
-export const TodoList: FC<Props> = memo((props) => {
+export const TodoList: FC<Props> = React.memo((props) => {
   const {
     todos,
     tempTodo,

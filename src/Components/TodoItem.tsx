@@ -5,7 +5,6 @@ import React, {
   FormEvent,
   ChangeEvent,
   KeyboardEvent,
-  memo,
   useRef,
   useEffect,
   useContext,
@@ -19,7 +18,7 @@ interface Props {
   onChangeStatus: (id: number, property: Partial<Todo>) => void
 }
 
-export const TodoItem: FC<Props> = memo((props) => {
+export const TodoItem: FC<Props> = React.memo((props) => {
   const {
     todo,
     onDelete,
@@ -27,6 +26,7 @@ export const TodoItem: FC<Props> = memo((props) => {
   } = props;
 
   const loadingTodos = useContext(React.createContext([0]));
+
   const [isEditing, setIsEditing] = useState(false);
   const [changedTitle, setChangedTitle] = useState(todo.title);
   const input = useRef<HTMLInputElement | null>(null);

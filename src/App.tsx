@@ -58,9 +58,11 @@ export const App: React.FC = () => {
     };
 
     try {
-      if (querySearch.trim()) {
-        await createTodo(USER_ID, newTodo);
+      if (!querySearch.trim()) {
+        return;
       }
+
+      await createTodo(USER_ID, newTodo);
 
       setTempTodo({
         id: 0,
@@ -77,6 +79,9 @@ export const App: React.FC = () => {
 
   const handleDeleteTodo = async (todoId: number) => {
     try {
+      const filtTodos = todos.filter(todo => todo.id !== todoId);
+
+      setTodos(filtTodos);
       await deleteTodo(todoId);
       await getTodosServer();
     } catch (error) {
@@ -125,12 +130,16 @@ export const App: React.FC = () => {
     return client.patch(`/todos/${todoId}`, property);
   };
 
-  const updateTodoStatus = useCallback(
+  const updateTodoTitle = useCallback(
     async (
       id: number,
       property: Partial<Todo>,
     ) => {
       try {
+        if (property.title === '') {
+          return;
+        }
+
         await updateTodo(id, property);
         getTodosServer();
       } catch (error) {
@@ -177,7 +186,7 @@ export const App: React.FC = () => {
           todos={filteredTodos}
           onDelete={handleDeleteTodo}
           tempTodo={tempTodo}
-          onChange={updateTodoStatus}
+          onChange={updateTodoTitle}
         />
         {todos.length > 0 && (
           <Footer
