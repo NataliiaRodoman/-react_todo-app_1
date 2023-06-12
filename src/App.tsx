@@ -16,7 +16,7 @@ const USER_ID = 10552;
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, onErrorChangeMessage] = useState<ErrorMessage | null>(null);
   const [querySearch, setQuerySearch] = useState('');
   const [filterBy, setFilterBy] = useState<FilterBy>(FilterBy.ALL);
 
@@ -29,7 +29,6 @@ export const App: React.FC = () => {
         case FilterBy.COMPLETED:
           return todo.completed;
         case FilterBy.ALL:
-          return true;
         default:
           return todo;
       }
@@ -42,7 +41,7 @@ export const App: React.FC = () => {
 
       setTodos(arrayTodos);
     } catch (error) {
-      setErrorMessage(ErrorMessage.DownloadError);
+      onErrorChangeMessage(ErrorMessage.DownloadError);
     }
   };
 
@@ -71,7 +70,7 @@ export const App: React.FC = () => {
 
       await getTodosServer();
     } catch (error) {
-      setErrorMessage(ErrorMessage.NotAdd);
+      onErrorChangeMessage(ErrorMessage.NotAdded);
     } finally {
       setTempTodo(null);
     }
@@ -85,17 +84,17 @@ export const App: React.FC = () => {
       await deleteTodo(todoId);
       await getTodosServer();
     } catch (error) {
-      setErrorMessage(ErrorMessage.NotDelete);
+      onErrorChangeMessage(ErrorMessage.NotDeleted);
     }
   };
 
   const deleteTodoCompleted = async () => {
     todos.filter(todo => todo.completed)
-      .map(todo => handleDeleteTodo(todo.id));
+      .forEach(todo => handleDeleteTodo(todo.id));
   };
 
   const onUpdate = async (id: number) => {
-    const updatedTodo = todos.map((todo) => {
+    const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
         return {
           ...todo,
@@ -106,7 +105,7 @@ export const App: React.FC = () => {
       return todo;
     });
 
-    setTodos(updatedTodo);
+    setTodos(updatedTodos);
     try {
       const todoToUpdate = todos.find((todo) => todo.id === id);
 
@@ -119,7 +118,7 @@ export const App: React.FC = () => {
         });
       }
     } catch (error) {
-      setErrorMessage(ErrorMessage.Issue);
+      onErrorChangeMessage(ErrorMessage.Issue);
     }
   };
 
@@ -143,13 +142,13 @@ export const App: React.FC = () => {
         await updateTodo(id, property);
         getTodosServer();
       } catch (error) {
-        setErrorMessage(ErrorMessage.NotUpdate);
+        onErrorChangeMessage(ErrorMessage.NotUpdated);
       }
     }, [],
   );
 
   const handleCloseError = () => {
-    setErrorMessage('');
+    onErrorChangeMessage(null);
   };
 
   const isAllTodosCompleted = useMemo(() => (
@@ -165,7 +164,7 @@ export const App: React.FC = () => {
         { ...todo, completed: !isAllTodosCompleted }
       )));
     } catch (error) {
-      setErrorMessage(ErrorMessage.NotUpdate);
+      onErrorChangeMessage(ErrorMessage.NotUpdated);
     }
   }, [todos]);
 
@@ -202,7 +201,7 @@ export const App: React.FC = () => {
         <ErrorModal
           onClose={handleCloseError}
           error={errorMessage}
-          setError={setErrorMessage}
+          onErrorChange={onErrorChangeMessage}
         />
       )}
     </div>

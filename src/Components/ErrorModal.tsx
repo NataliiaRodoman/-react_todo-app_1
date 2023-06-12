@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect } from 'react';
+import { ErrorMessage } from '../types/Constants';
 
 interface Props {
   onClose: () => void;
   error: string;
-  setError: (error: string) => void;
+  onErrorChange: (error: ErrorMessage | null) => void;
 }
 
-export const ErrorModal: React.FC<Props> = ({ onClose, error, setError }) => {
+export const ErrorModal: React.FC<Props> = ({ onClose, error, onErrorChange }) => {
   useEffect(() => {
     const hideNotification = setTimeout(() => {
-      setError('');
+      onErrorChange(null);
     }, 3000);
 
     return () => clearTimeout(hideNotification);
