@@ -4,4 +4,4 @@
 
 ## *Technologies used: React, Rract Router(v6), Typescript, SCSS, HTML, BEM.*
 
-### [DEMO LINK](https://nata-prog123.github.io/-react_todo-app_1/) 
+### [DEMO LINK](https://NataliiaRodoman.github.io/-react_todo-app_1/)  
