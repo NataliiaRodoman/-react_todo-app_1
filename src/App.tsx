@@ -16,7 +16,7 @@ const USER_ID = 10552;
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [errorMessage, onErrorChangeMessage] = useState<ErrorMessage | null>(null);
+  const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null);
   const [querySearch, setQuerySearch] = useState('');
   const [filterBy, setFilterBy] = useState<FilterBy>(FilterBy.ALL);
 
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
 
       setTodos(arrayTodos);
     } catch (error) {
-      onErrorChangeMessage(ErrorMessage.DownloadError);
+      setErrorMessage(ErrorMessage.DownloadError);
     }
   };
 
@@ -70,7 +70,7 @@ export const App: React.FC = () => {
 
       await getTodosServer();
     } catch (error) {
-      onErrorChangeMessage(ErrorMessage.NotAdded);
+      setErrorMessage(ErrorMessage.NotAdded);
     } finally {
       setTempTodo(null);
     }
@@ -84,7 +84,7 @@ export const App: React.FC = () => {
       await deleteTodo(todoId);
       await getTodosServer();
     } catch (error) {
-      onErrorChangeMessage(ErrorMessage.NotDeleted);
+      setErrorMessage(ErrorMessage.NotDeleted);
     }
   };
 
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
         });
       }
     } catch (error) {
-      onErrorChangeMessage(ErrorMessage.Issue);
+      setErrorMessage(ErrorMessage.Issue);
     }
   };
 
@@ -142,13 +142,13 @@ export const App: React.FC = () => {
         await updateTodo(id, property);
         getTodosServer();
       } catch (error) {
-        onErrorChangeMessage(ErrorMessage.NotUpdated);
+        setErrorMessage(ErrorMessage.NotUpdated);
       }
     }, [],
   );
 
   const handleCloseError = () => {
-    onErrorChangeMessage(null);
+    setErrorMessage(null);
   };
 
   const isAllTodosCompleted = useMemo(() => (
@@ -164,7 +164,7 @@ export const App: React.FC = () => {
         { ...todo, completed: !isAllTodosCompleted }
       )));
     } catch (error) {
-      onErrorChangeMessage(ErrorMessage.NotUpdated);
+      setErrorMessage(ErrorMessage.NotUpdated);
     }
   }, [todos]);
 
@@ -201,7 +201,7 @@ export const App: React.FC = () => {
         <ErrorModal
           onClose={handleCloseError}
           error={errorMessage}
-          onErrorChange={onErrorChangeMessage}
+          onErrorChange={setErrorMessage}
         />
       )}
     </div>

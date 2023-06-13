@@ -24,7 +24,6 @@ export const ErrorModal: React.FC<Props> = ({ onClose, error, onErrorChange }) =
         className="delete"
         onClick={onClose}
       />
-
       {error}
     </div>
   );
