@@ -117,7 +117,9 @@ export const TodoItem: FC<Props> = React.memo((props) => {
       })}
       >
         <div className="modal-background has-background-white-ter" />
-        <div className="loader" />
+        <div className="loader">
+          <div className="loader__content" />
+        </div>
       </div>
     </div>
   );
